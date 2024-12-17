@@ -27,5 +27,5 @@ typing-extensions==4.12.2
 tzdata==2024.1
 openpyxl==3.2.0b1
 st-weaviate-connection==0.1.0
-weaviate==4.9.6
+weaviate
 dspy==2.5.42
