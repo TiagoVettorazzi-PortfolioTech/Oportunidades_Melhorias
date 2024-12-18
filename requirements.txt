@@ -9,6 +9,7 @@ langchain-openai==0.1.23
 numexpr==2.8.4
 numpy==1.26.4
 openai==1.57.4
+openpyxl
 pandas==2.2.2
 pathlib==1.0.1
 protobuf==5.29.1
