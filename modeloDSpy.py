@@ -13,13 +13,8 @@ class OportuneRAGClient:
         # Explicitly load .env file and print debug information
         load_dotenv()
        
-        # Debug print environment variables
-        print("OPENAI_API_KEY:", "SET" if st.secrets["OPENAI_API_KEY"] else "NOT SET")
-        print("WEAVIATE_CLUSTER_URL:", st.secrets["WEAVIATE_URL"])
-        print("WEAVIATE_API_KEY:", "SET" if st.secrets["WEAVIATE_API_KEY"] else "NOT SET")
         # Retrieve environment variables
         self.secretk = st.secrets["OPENAI_API_KEY"]
-        print("self.secretk:",self.secretk)
         self.weaviate_cluster_url = st.secrets["WEAVIATE_URL"]
         self.weaviate_api_key = st.secrets["WEAVIATE_API_KEY"]
         # Validate environment variables
