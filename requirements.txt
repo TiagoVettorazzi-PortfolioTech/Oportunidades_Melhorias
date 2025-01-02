@@ -29,7 +29,3 @@ tzdata==2024.1
 st-weaviate-connection==0.1.0
 weaviate-client==4.9.6
 dspy==2.5.42
-<<<<<<< HEAD
-
-=======
->>>>>>> 2d87e3259c8b9c45f689beffa3c22e925126a470
