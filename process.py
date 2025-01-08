@@ -16,4 +16,4 @@ def run_agent_analysis(prompt):
     df = transform_input_to_df(answer)
     # client.close_weaviate_client()
     return df
-print(run_agent_analysis("Teste para criar oportunidade de melhoria"))
+# print(run_agent_analysis("Teste para criar oportunidade de melhoria"))
