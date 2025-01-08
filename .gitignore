@@ -1,0 +1,10 @@
+.env
+__pycache__
+weaviate.ipynb
+dockerfile
+
+cache/
+
+exports/
+
+*.log
