@@ -8,3 +8,4 @@ cache/
 exports/
 
 *.log
+.streamlit
