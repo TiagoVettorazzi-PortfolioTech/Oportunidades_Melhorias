@@ -186,51 +186,126 @@ def render_diagnostico():
                 'causa': causa
             }
 
-            if ramo_empresa and st.session_state.direcionadores and nome_processo and atividade and evento and causa:
-                with st.spinner('Oportunidade de melhorias em andamento...'):
-                    start_time = time.time()
+            # if ramo_empresa and st.session_state.direcionadores and nome_processo and atividade and evento and causa:
+            #     with st.spinner('Oportunidade de melhorias em andamento...'):
+            #         start_time = time.time()
                     
-                    # Inicializar ou redefinir `all_resultados` como DataFrame, se não existir
-                    if 'all_resultados' not in st.session_state or not isinstance(st.session_state.all_resultados, pd.DataFrame):
-                        st.session_state.all_resultados = pd.DataFrame(columns=['Direcionador'])  # Definir estrutura inicial
+            #         # Inicializar ou redefinir `all_resultados` como DataFrame, se não existir
+            #         if 'all_resultados' not in st.session_state or not isinstance(st.session_state.all_resultados, pd.DataFrame):
+            #             st.session_state.all_resultados = pd.DataFrame(columns=['Direcionador'])  # Definir estrutura inicial
 
-                    # Criar uma lista para armazenar novos resultados desta execução
-                    new_resultados = []
+            #         # Criar uma lista para armazenar novos resultados desta execução
+            #         new_resultados = []
 
-                    # Converter direcionadores para lista, caso seja uma string
-                    direcionadores = (
-                        [st.session_state.direcionadores] 
-                        if isinstance(st.session_state.direcionadores, str) 
-                        else st.session_state.direcionadores
-                    )
+            #         # Converter direcionadores para lista, caso seja uma string
+            #         direcionadores = (
+            #             [st.session_state.direcionadores] 
+            #             if isinstance(st.session_state.direcionadores, str) 
+            #             else st.session_state.direcionadores
+            #         )
 
-                    for direcao in direcionadores:
-                        # Verificar se o direcionador já foi processado
-                        if direcao not in st.session_state.all_resultados['Direcionador'].values:
-                            # Criar o texto do processo
-                            processo = f"""ramo_empresa: {ramo_empresa}, direcionadores: {direcao}, nome_do_processo: {nome_processo}, atividade: {atividade}, evento: {evento}, causa: {causa}"""
+            #         for direcao in direcionadores:
+            #             # Verificar se o direcionador já foi processado
+            #             if direcao not in st.session_state.all_resultados['Direcionador'].values:
+            #                 # Criar o texto do processo
+            #                 processo = f"""ramo_empresa: {ramo_empresa}, direcionadores: {direcao}, nome_do_processo: {nome_processo}, atividade: {atividade}, evento: {evento}, causa: {causa}"""
                             
-                            # Executar análise
-                            analyst = run_agent_analysis(processo)
-                            if isinstance(analyst, pd.DataFrame):  # Certificar que o retorno é DataFrame
-                                analyst['Direcionador'] = direcao  # Adicionar a coluna 'Direcionador'
-                                new_resultados.append(analyst)
+            #                 # Executar análise
+            #                 analyst = run_agent_analysis(processo)
+            #                 if isinstance(analyst, pd.DataFrame):  # Certificar que o retorno é DataFrame
+            #                     analyst['Direcionador'] = direcao  # Adicionar a coluna 'Direcionador'
+            #                     new_resultados.append(analyst)
 
-                    # Atualizar resultados com os novos direcionadores processados
-                    if new_resultados:
-                        # Concatenar novos resultados ao DataFrame existente na sessão
-                        new_resultados_df = pd.concat(new_resultados, ignore_index=True)
-                        resultado_final = pd.concat([st.session_state.all_resultados, new_resultados_df], ignore_index=True)
+            #         # Atualizar resultados com os novos direcionadores processados
+            #         if new_resultados:
+            #             # Concatenar novos resultados ao DataFrame existente na sessão
+            #             new_resultados_df = pd.concat(new_resultados, ignore_index=True)
+            #             resultado_final = pd.concat([st.session_state.all_resultados, new_resultados_df], ignore_index=True)
                         
-                        execution_time = time.time() - start_time
-                        st.success(f"Oportunidade de melhorias obtidas para {len(direcionadores)} direcionadores em {execution_time:.2f} segundos.")
+            #             execution_time = time.time() - start_time
+            #             st.success(f"Oportunidade de melhorias obtidas para {len(direcionadores)} direcionadores em {execution_time:.2f} segundos.")
                         
-                        # # Preparar resultados para download
-                        st.session_state.resultados = resultado_final
-                        st.session_state.excel_file = convert_df_to_excel(resultado_final)
-                        st.session_state.show_download_button = True
-                    else:
-                        st.info("Nenhum novo direcionador foi processado. Todos já foram analisados anteriormente.")
+            #             # # Preparar resultados para download
+            #             st.session_state.resultados = resultado_final
+            #             st.session_state.excel_file = convert_df_to_excel(resultado_final)
+            #             st.session_state.show_download_button = True
+            #         else:
+            #             st.info("Nenhum novo direcionador foi processado. Todos já foram analisados anteriormente.")
+            # else:
+            #     st.warning("Por favor, preencha todos os campos e adicione pelo menos um direcionador.")
+            if ramo_empresa and st.session_state.direcionadores and nome_processo and atividade and evento and causa:
+                start_time = time.time()
+                
+                # Inicializar ou redefinir `all_resultados` como DataFrame, se não existir
+                if 'all_resultados' not in st.session_state or not isinstance(st.session_state.all_resultados, pd.DataFrame):
+                    st.session_state.all_resultados = pd.DataFrame(columns=['Direcionador'])  # Definir estrutura inicial
+
+                # Criar uma lista para armazenar novos resultados desta execução
+                new_resultados = []
+
+                # Converter direcionadores para lista, caso seja uma string
+                direcionadores = (
+                    [st.session_state.direcionadores] 
+                    if isinstance(st.session_state.direcionadores, str) 
+                    else st.session_state.direcionadores
+                )
+
+                total_direcionadores = len(direcionadores)
+
+                # Spinner principal para tempo geral
+                # for i, direcao in enumerate(direcionadores, start=1):
+
+                #     # Verificar se o direcionador já foi processado
+                #     if direcao not in st.session_state.all_resultados['Direcionador'].values:
+                #         # Criar o texto do processo
+                #         processo = f"""ramo_empresa: {ramo_empresa}, direcionadores: {direcao}, nome_do_processo: {nome_processo}, atividade: {atividade}, evento: {evento}, causa: {causa}"""
+                        
+                #         # Spinner individual para o direcionador
+                #         with st.spinner(f'Processando direcionador {i}/{total_direcionadores}...'):
+                #             analyst = run_agent_analysis(processo)
+                        
+                #         if isinstance(analyst, pd.DataFrame):  # Certificar que o retorno é DataFrame
+                #             analyst['Direcionador'] = direcao  # Adicionar a coluna 'Direcionador'
+                #             new_resultados.append(analyst)
+# Spinner principal para tempo geral
+                for i, direcao in enumerate(direcionadores, start=1):
+
+    # Verificar se o direcionador já foi processado
+                    if direcao not in st.session_state.all_resultados['Direcionador'].values:
+                        # Criar o texto do processo
+                        processo = f"""ramo_empresa: {ramo_empresa}, direcionadores: {direcao}, nome_do_processo: {nome_processo}, atividade: {atividade}, evento: {evento}, causa: {causa}"""
+                        
+                        # Definir a mensagem do spinner
+                        if len(direcionadores) == 1:
+                            mensagem_spinner = f"Seus dados estão sendo processados! Aguarde um instante (direcionador {i}/{len(direcionadores)})"
+                        elif i == len(direcionadores):
+                            mensagem_spinner = f"Estamos quase lá! (direcionador {i}/{len(direcionadores)})"
+                        else:
+                            mensagem_spinner = f"Seus dados estão sendo processados! Aguarde um instante (direcionador {i}/{len(direcionadores)})"
+                        
+                        # Spinner individual para o direcionador
+                        with st.spinner(mensagem_spinner):
+                            analyst = run_agent_analysis(processo)
+                        
+                        if isinstance(analyst, pd.DataFrame):  # Certificar que o retorno é DataFrame
+                            analyst['Direcionador'] = direcao  # Adicionar a coluna 'Direcionador'
+                            new_resultados.append(analyst)
+
+                # Atualizar resultados com os novos direcionadores processados
+                if new_resultados:
+                    # Concatenar novos resultados ao DataFrame existente na sessão
+                    new_resultados_df = pd.concat(new_resultados, ignore_index=True)
+                    resultado_final = pd.concat([st.session_state.all_resultados, new_resultados_df], ignore_index=True)
+                    
+                    execution_time = time.time() - start_time
+                    st.success(f"Oportunidade de melhorias obtidas para {len(direcionadores)} direcionadores em {execution_time:.2f} segundos.")
+                    
+                    # Preparar resultados para download
+                    st.session_state.resultados = resultado_final
+                    st.session_state.excel_file = convert_df_to_excel(resultado_final)
+                    st.session_state.show_download_button = True
+                else:
+                    st.info("Nenhum novo direcionador foi processado. Todos já foram analisados anteriormente.")
             else:
                 st.warning("Por favor, preencha todos os campos e adicione pelo menos um direcionador.")
 
