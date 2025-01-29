@@ -126,7 +126,7 @@ def render_diagnostico():
     with st.form(key='add_direcionador_form'):
         new_direcionador = st.text_input(
             "Novo Direcionador",
-            placeholder="Digite um novo direcionador",
+            placeholder="Direcionador Estratégico definido como objetivo do projeto. Ex: Redução de custos, Eficiência Operacional.",
             key="new_direcionador"
         )
         if st.form_submit_button("Adicionar Direcionador"):
@@ -152,27 +152,27 @@ def render_diagnostico():
         ramo_empresa = st.text_input(
             "Ramo da empresa", 
             value=st.session_state.form_inputs['ramo_empresa'],
-            placeholder="Digite o ramo da empresa"
+            placeholder="Ramo em que a empresa atua."
         )
         nome_processo = st.text_input(
             "Nome do processo", 
             value=st.session_state.form_inputs['nome_processo'],
-            placeholder="Digite o nome do processo"
+            placeholder="Nome do processo relacionado à melhoria."
         )
         atividade = st.text_input(
             "Atividade", 
             value=st.session_state.form_inputs['atividade'],
-            placeholder="Digite a atividade"
+            placeholder="Sinalizar qual a atividade relacionada ao problema no fluxograma ou diagrama de escopo."
         )
         evento = st.text_input(
             "Evento", 
             value=st.session_state.form_inputs['evento'],
-            placeholder="Digite o evento"
+            placeholder="Descrever qual o problema ou ocorrência identificados."
         )
         causa = st.text_input(
             "Causa", 
             value=st.session_state.form_inputs['causa'],
-            placeholder="Digite a causa"
+            placeholder="Causa do problema."
         )
 
         submit_button = st.form_submit_button(label='Obter Oportunidade de melhorias')
