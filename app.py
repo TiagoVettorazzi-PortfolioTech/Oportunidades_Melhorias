@@ -8,6 +8,7 @@ import pandas as pd
 from io import BytesIO
 import time
 import streamlit as st
+import time
 
 load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
@@ -186,53 +187,6 @@ def render_diagnostico():
                 'causa': causa
             }
 
-            # if ramo_empresa and st.session_state.direcionadores and nome_processo and atividade and evento and causa:
-            #     with st.spinner('Oportunidade de melhorias em andamento...'):
-            #         start_time = time.time()
-                    
-            #         # Inicializar ou redefinir `all_resultados` como DataFrame, se não existir
-            #         if 'all_resultados' not in st.session_state or not isinstance(st.session_state.all_resultados, pd.DataFrame):
-            #             st.session_state.all_resultados = pd.DataFrame(columns=['Direcionador'])  # Definir estrutura inicial
-
-            #         # Criar uma lista para armazenar novos resultados desta execução
-            #         new_resultados = []
-
-            #         # Converter direcionadores para lista, caso seja uma string
-            #         direcionadores = (
-            #             [st.session_state.direcionadores] 
-            #             if isinstance(st.session_state.direcionadores, str) 
-            #             else st.session_state.direcionadores
-            #         )
-
-            #         for direcao in direcionadores:
-            #             # Verificar se o direcionador já foi processado
-            #             if direcao not in st.session_state.all_resultados['Direcionador'].values:
-            #                 # Criar o texto do processo
-            #                 processo = f"""ramo_empresa: {ramo_empresa}, direcionadores: {direcao}, nome_do_processo: {nome_processo}, atividade: {atividade}, evento: {evento}, causa: {causa}"""
-                            
-            #                 # Executar análise
-            #                 analyst = run_agent_analysis(processo)
-            #                 if isinstance(analyst, pd.DataFrame):  # Certificar que o retorno é DataFrame
-            #                     analyst['Direcionador'] = direcao  # Adicionar a coluna 'Direcionador'
-            #                     new_resultados.append(analyst)
-
-            #         # Atualizar resultados com os novos direcionadores processados
-            #         if new_resultados:
-            #             # Concatenar novos resultados ao DataFrame existente na sessão
-            #             new_resultados_df = pd.concat(new_resultados, ignore_index=True)
-            #             resultado_final = pd.concat([st.session_state.all_resultados, new_resultados_df], ignore_index=True)
-                        
-            #             execution_time = time.time() - start_time
-            #             st.success(f"Oportunidade de melhorias obtidas para {len(direcionadores)} direcionadores em {execution_time:.2f} segundos.")
-                        
-            #             # # Preparar resultados para download
-            #             st.session_state.resultados = resultado_final
-            #             st.session_state.excel_file = convert_df_to_excel(resultado_final)
-            #             st.session_state.show_download_button = True
-            #         else:
-            #             st.info("Nenhum novo direcionador foi processado. Todos já foram analisados anteriormente.")
-            # else:
-            #     st.warning("Por favor, preencha todos os campos e adicione pelo menos um direcionador.")
             if ramo_empresa and st.session_state.direcionadores and nome_processo and atividade and evento and causa:
                 start_time = time.time()
                 
@@ -252,22 +206,7 @@ def render_diagnostico():
 
                 total_direcionadores = len(direcionadores)
 
-                # Spinner principal para tempo geral
-                # for i, direcao in enumerate(direcionadores, start=1):
-
-                #     # Verificar se o direcionador já foi processado
-                #     if direcao not in st.session_state.all_resultados['Direcionador'].values:
-                #         # Criar o texto do processo
-                #         processo = f"""ramo_empresa: {ramo_empresa}, direcionadores: {direcao}, nome_do_processo: {nome_processo}, atividade: {atividade}, evento: {evento}, causa: {causa}"""
-                        
-                #         # Spinner individual para o direcionador
-                #         with st.spinner(f'Processando direcionador {i}/{total_direcionadores}...'):
-                #             analyst = run_agent_analysis(processo)
-                        
-                #         if isinstance(analyst, pd.DataFrame):  # Certificar que o retorno é DataFrame
-                #             analyst['Direcionador'] = direcao  # Adicionar a coluna 'Direcionador'
-                #             new_resultados.append(analyst)
-# Spinner principal para tempo geral
+    # Spinner principal para tempo geral
                 for i, direcao in enumerate(direcionadores, start=1):
 
     # Verificar se o direcionador já foi processado
@@ -402,12 +341,55 @@ def render_planilha_final():
             mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         )
 
+# def main():
+#     st.set_page_config(page_title="Oportunidade de Melhoria", layout="wide")
+#     add_bg_from_local('background.png')
+#     load_css('style.css')
+    
+#     pages = setup_navigation()
+#     progress_value = (st.session_state.current_page + 1) / len(pages)
+    
+#     col1, col2 = st.columns([3, 1])
+#     with col1:
+#         st.markdown(f'<p class="big-font">{pages[st.session_state.current_page]}</p>', unsafe_allow_html=True)
+#     with col2:
+#         st.image('logo.png', width=200)
+    
+#     st.progress(progress_value)
+
+#     main_container = st.container()
+#     with main_container:
+#         if pages[st.session_state.current_page] == "🔍 Oportunidade de melhorias":
+#             render_diagnostico()  
+#         elif pages[st.session_state.current_page] == "📋 Planilha Final":
+#             render_planilha_final()
+
+#     col1, col2, col3 = st.columns(3)
+#     with col1:
+#         if st.session_state.current_page > 0:
+#             if st.button("Anterior", key="prev_button"):
+#                 st.session_state.current_page -= 1
+#                 st.rerun()
+#     with col3:
+#         if st.session_state.current_page < len(pages) - 1:
+#             if st.button("Próximo", key="next_button"):
+#                 st.session_state.current_page += 1
+#                 # st.rerun()
+#         elif st.session_state.current_page == len(pages) - 1:
+#             if st.button("Finalizar", key="finish_button"):
+#                 st.success("Processo finalizado com sucesso!")
+
+# if __name__ == "__main__":
+#     main()
 
 def main():
     st.set_page_config(page_title="Oportunidade de Melhoria", layout="wide")
     add_bg_from_local('background.png')
     load_css('style.css')
     
+    if 'current_page' not in st.session_state:
+        st.session_state.current_page = 0  # Inicializa a página atual
+
     pages = setup_navigation()
     progress_value = (st.session_state.current_page + 1) / len(pages)
     
@@ -439,7 +421,16 @@ def main():
                 st.rerun()
         elif st.session_state.current_page == len(pages) - 1:
             if st.button("Finalizar", key="finish_button"):
+                # Exibe a mensagem de sucesso
                 st.success("Processo finalizado com sucesso!")
+                
+                # Aguarda 5 segundos
+                time.sleep(5)
+                
+                # Redefine os dados e retorna à página anterior
+                st.session_state.clear()  # Apaga todas as variáveis de sessão
+                st.session_state.current_page = 0  # Retorna à primeira página
+                st.rerun()  # Recarrega a aplicação
 
 if __name__ == "__main__":
     main()
